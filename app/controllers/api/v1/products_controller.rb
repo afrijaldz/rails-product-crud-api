@@ -1,18 +1,15 @@
 class Api::V1::ProductsController < ApplicationController
     before_action :set_product, only: [:show, :update, :destroy]
   
-    # GET /products
     def index
       @products = Product.all.with_attached_image
       render json: @products.map { |product| product_json(product) }
     end
   
-    # GET /products/:id
     def show
       render json: product_json(@product)
     end
   
-    # POST /products
     def create
       @product = Product.new(flat_product_params)
       if @product.save
@@ -22,7 +19,6 @@ class Api::V1::ProductsController < ApplicationController
       end
     end
   
-    # PUT /products/:id
     def update
       if @product.update(flat_product_params)
         render json: product_json(@product)
@@ -31,7 +27,6 @@ class Api::V1::ProductsController < ApplicationController
       end
     end
   
-    # DELETE /products/:id
     def destroy
       @product.destroy
       head :no_content
