@@ -1,0 +1,26 @@
+version: "3.9"
+
+services:
+  rails:
+    build:
+      context: .
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgres://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME_DEVELOPMENT}
+      MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY}
+      MINIO_SECRET_KEY: ${MINIO_SECRET_KEY}
+      MINIO_REGION: ${MINIO_REGION}
+      MINIO_ENDPOINT: ${MINIO_ENDPOINT}
+    ports:
+      - "3000:80"
+    networks:
+      - postgres_default
+    volumes:
+      - .:/app
+    stdin_open: true
+    tty: true
+
+networks:
+  postgres_default:
+    external: true
